@@ -1,5 +1,7 @@
 import React from 'react';
 import '../../styles/canvas.css';
+import PropTypes from 'prop-types';
+import { deepCopyObj } from '../../js/utils.js';
 
 
 class Field extends React.Component {
@@ -7,7 +9,7 @@ class Field extends React.Component {
     super(props);
 
     this._ctx;
-    this._views = this.props.views || [];
+    this._views = deepCopyObj(this.props.views) || [];
   }
 
   componentDidMount() {
@@ -33,13 +35,23 @@ class Field extends React.Component {
     });
   }
 
-  shouldComponentUpdate() {
+  shouldComponentUpdate(newProps) {
     this._clearOldViews();
+    this._views = deepCopyObj(newProps.views);
+    this._renderViews();
     return true;
   }
 
   _clearOldViews() {
-    console.log('old views: ', this._views);
+    const that = this;
+    this._views.forEach((view) => {
+      that._ctx.clearRect(
+        view.x,
+        view.y,
+        view.width,
+        view.height
+      );
+    });
   }
 
   render() {
@@ -50,6 +62,12 @@ class Field extends React.Component {
             height={this.props.height}></canvas>;
   }
 }
+
+Field.propTypes = {
+  width: PropTypes.number,
+  height: PropTypes.number,
+  views: PropTypes.array,
+};
 
 
 export default Field;

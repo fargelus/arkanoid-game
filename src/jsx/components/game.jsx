@@ -13,10 +13,11 @@ class Game extends React.Component {
     this._platformRenderInfo = this._getPlatformRenderInfo();
     this._onPlatformMove = this._onPlatformMove.bind(this);
     const platformSettings = {
-      'edge': this.props.w,
-      'shift': 10,
-      'onMove': this._onPlatformMove,
-      'pos': this._platformRenderInfo.x,
+      edge: this._width,
+      shift: 10,
+      length: this._platformRenderInfo.width,
+      onMove: this._onPlatformMove,
+      pos: this._platformRenderInfo.x,
     };
     this._platform = new Platform(platformSettings);
 

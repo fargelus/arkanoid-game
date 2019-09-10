@@ -4,6 +4,7 @@ class Platform {
     this._rightWall = settings.edge;
     this._stepSize = settings.shift;
     this._emitMove = settings.onMove;
+    this._length = settings.length;
     this._pos = settings.pos;
 
     this._codesToDirection = {
@@ -36,13 +37,14 @@ class Platform {
   }
 
   _moveLeft() {
-    if (this._pos - this._stepSize > this._leftWall) {
+    if (this._pos - this._stepSize >= this._leftWall) {
       this._pos -= this._stepSize;
     }
   }
 
   _moveRight() {
-    if (this._pos + this._stepSize < this._rightWall) {
+    const rightCorner = this._pos + this._length;
+    if (rightCorner + this._stepSize <= this._rightWall) {
       this._pos += this._stepSize;
     }
   }
