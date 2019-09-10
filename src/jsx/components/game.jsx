@@ -33,12 +33,8 @@ class Game extends React.Component {
   }
 
   _initPlatformView() {
-    const platformInfo = this._getPlatformRenderInfo();
     const platformView = {
-      x: platformInfo.x,
-      y: platformInfo.y,
-      width: platformInfo.width,
-      height: platformInfo.heihgt,
+      ...this._platformRenderInfo,
       color: '#5677d1',
     };
 
@@ -63,14 +59,12 @@ class Game extends React.Component {
       x: x,
       y: y,
       width: WIDTH,
-      heihgt: HEIGHT,
+      height: HEIGHT,
     };
   }
 
   render() {
     const viewsToRender = Object.values(this.state.views);
-    console.log('render!');
-    console.log(viewsToRender);
 
     return (
             <div>
