@@ -1,14 +1,15 @@
 import React from 'react';
 import Field from './field.jsx';
 import Platform from '../../js/views/platform.js';
+import PropTypes from 'prop-types';
 
 
 class Game extends React.Component {
   constructor(props) {
     super(props);
 
-    this._width = this.props.width || 800;
-    this._height = this.props.heihgt || 600;
+    this._width = +this.props.w || 800;
+    this._height = +this.props.h || 600;
 
     this._platformRenderInfo = this._getPlatformRenderInfo();
     this._onPlatformMove = this._onPlatformMove.bind(this);
@@ -77,6 +78,11 @@ class Game extends React.Component {
           );
   }
 }
+
+Game.propTypes = {
+  w: PropTypes.string,
+  h: PropTypes.string,
+};
 
 
 export default Game;

@@ -8,6 +8,7 @@ class Field extends React.Component {
   constructor(props) {
     super(props);
 
+    this._ref = React.createRef();
     this._ctx;
     this._views = deepCopyObj(this.props.views) || [];
   }
@@ -18,7 +19,7 @@ class Field extends React.Component {
   }
 
   _setupContext() {
-    const cnv = this.refs.cnv;
+    const cnv = this._ref.current;
     this._ctx = cnv.getContext('2d');
   }
 
@@ -36,6 +37,7 @@ class Field extends React.Component {
   }
 
   shouldComponentUpdate(newProps) {
+    // TODO Убрать вычисления из метода
     this._clearOldViews();
     this._views = deepCopyObj(newProps.views);
     this._renderViews();
@@ -57,7 +59,7 @@ class Field extends React.Component {
   render() {
     return <canvas
             className="canvas"
-            ref="cnv"
+            ref={this._ref}
             width={this.props.width}
             height={this.props.height}></canvas>;
   }
