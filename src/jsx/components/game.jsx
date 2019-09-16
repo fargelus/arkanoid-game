@@ -1,7 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import Field from './field.jsx';
 import Platform from '../../js/views/platform.js';
-import PropTypes from 'prop-types';
 import { deepCopyObj } from '../../js/utils.js';
 
 

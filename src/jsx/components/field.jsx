@@ -1,6 +1,7 @@
 import React from 'react';
-import '../../styles/canvas.css';
 import PropTypes from 'prop-types';
+
+import '../../styles/canvas.css';
 
 
 class Field extends React.Component {
