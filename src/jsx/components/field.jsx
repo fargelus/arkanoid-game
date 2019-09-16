@@ -1,7 +1,6 @@
 import React from 'react';
 import '../../styles/canvas.css';
 import PropTypes from 'prop-types';
-import { deepCopyObj } from '../../js/utils.js';
 
 
 class Field extends React.Component {
@@ -10,12 +9,12 @@ class Field extends React.Component {
 
     this._ref = React.createRef();
     this._ctx;
-    this._views = deepCopyObj(this.props.views) || [];
+    this._baseViews = this.props.views || [];
   }
 
   componentDidMount() {
     this._setupContext();
-    this._renderViews();
+    this._renderViews(this._baseViews);
   }
 
   _setupContext() {
@@ -23,9 +22,9 @@ class Field extends React.Component {
     this._ctx = cnv.getContext('2d');
   }
 
-  _renderViews() {
+  _renderViews(views) {
     const that = this;
-    this._views.forEach((view) => {
+    views.forEach((view) => {
       that._ctx.fillStyle = view.color;
       that._ctx.fillRect(
         view.x,
@@ -36,17 +35,14 @@ class Field extends React.Component {
     });
   }
 
-  shouldComponentUpdate(newProps) {
-    // TODO Убрать вычисления из метода
-    this._clearOldViews();
-    this._views = deepCopyObj(newProps.views);
-    this._renderViews();
-    return true;
+  componentDidUpdate(prevProps) {
+    this._clearOldViews(prevProps.views);
+    this._renderViews(this.props.views);
   }
 
-  _clearOldViews() {
+  _clearOldViews(oldViews) {
     const that = this;
-    this._views.forEach((view) => {
+    oldViews.forEach((view) => {
       that._ctx.clearRect(
         view.x,
         view.y,

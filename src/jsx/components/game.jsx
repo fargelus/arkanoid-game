@@ -2,6 +2,7 @@ import React from 'react';
 import Field from './field.jsx';
 import Platform from '../../js/views/platform.js';
 import PropTypes from 'prop-types';
+import { deepCopyObj } from '../../js/utils.js';
 
 
 class Game extends React.Component {
@@ -22,11 +23,11 @@ class Game extends React.Component {
     };
     this._platform = new Platform(platformSettings);
 
-    this._views = {};
+    this._viewsMap = {};
     this._initViews();
 
     this.state = {
-      views: this._views,
+      render_views: Object.values(deepCopyObj(this._viewsMap)),
     };
   }
 
@@ -40,14 +41,13 @@ class Game extends React.Component {
       color: '#5677d1',
     };
 
-    this._views['platform'] = platformView;
+    this._viewsMap['platform'] = platformView;
   }
 
   _onPlatformMove() {
-    const views = this.state.views;
-    views['platform'].x = this._platform.getPos();
+    this._viewsMap['platform'].x = this._platform.getPos();
     this.setState({
-      views: views,
+      render_views: Object.values(deepCopyObj(this._viewsMap)),
     });
   }
 
@@ -66,12 +66,10 @@ class Game extends React.Component {
   }
 
   render() {
-    const viewsToRender = Object.values(this.state.views);
-
     return (
             <div>
               <Field
-                views={viewsToRender}
+                views={this.state.render_views}
                 width={this._width}
                 height={this._height} />
             </div>
