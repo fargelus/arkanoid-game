@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Field from './field.jsx';
 import Platform from '../../js/views/platform.js';
 import { deepCopyObj } from '../../js/utils.js';
+import { FIGURE_TYPES } from '../../js/figure_types.js';
 
 
 class Game extends React.Component {
@@ -40,6 +41,7 @@ class Game extends React.Component {
     const platformView = {
       ...this._platformRenderInfo,
       color: '#5677d1',
+      type: FIGURE_TYPES.RECT,
     };
 
     this._viewsMap['platform'] = platformView;

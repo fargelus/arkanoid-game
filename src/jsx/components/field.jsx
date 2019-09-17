@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import '../../styles/canvas.css';
+import Renderer from '../../js/renderer.js';
 
 
 class Field extends React.Component {
@@ -11,11 +12,13 @@ class Field extends React.Component {
     this._ref = React.createRef();
     this._ctx;
     this._baseViews = this.props.views || [];
+    this._renderer;
   }
 
   componentDidMount() {
     this._setupContext();
-    this._renderViews(this._baseViews);
+    this._renderer = new Renderer(this._ctx);
+    this._renderer.render(this._baseViews);
   }
 
   _setupContext() {
@@ -23,34 +26,9 @@ class Field extends React.Component {
     this._ctx = cnv.getContext('2d');
   }
 
-  _renderViews(views) {
-    const that = this;
-    views.forEach((view) => {
-      that._ctx.fillStyle = view.color;
-      that._ctx.fillRect(
-        view.x,
-        view.y,
-        view.width,
-        view.height
-      );
-    });
-  }
-
   componentDidUpdate(prevProps) {
-    this._clearOldViews(prevProps.views);
-    this._renderViews(this.props.views);
-  }
-
-  _clearOldViews(oldViews) {
-    const that = this;
-    oldViews.forEach((view) => {
-      that._ctx.clearRect(
-        view.x,
-        view.y,
-        view.width,
-        view.height
-      );
-    });
+    this._renderer.clear(prevProps.views);
+    this._renderer.render(this.props.views);
   }
 
   render() {
